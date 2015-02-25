@@ -26,6 +26,8 @@ public class preprocess {
 		// TODO Auto-generated method stub
 		Stopword sp=new Stopword();
 	    Special spe=new Special();
+	    Porter stemmer = new Porter();
+	    LanguageCorrector corrector = new LanguageCorrector();
 	    FileInputStream fis_task=null; 
         String str_task;
         InputStreamReader isr_task;
@@ -34,21 +36,23 @@ public class preprocess {
     
       try 
       {
-    	  fis_task = new FileInputStream("C:\\Users\\Jemin-PC\\Desktop\\Hotel Car Dataset\\hotels\\beijing\\china_beijing_aloft_beijing_haidian");
+    	  fis_task = new FileInputStream("G:\\hotels\\beijing\\china_beijing_aloft_beijing_haidian");
     	  isr_task = new InputStreamReader(fis_task) ;
-    	  br_task = new BufferedReader(isr_task)      ;
-    	  File f3 = new File("C:\\Users\\Jemin-PC\\Desktop\\Hotel Car Dataset\\hotels\\beijing\\"+"preprocessed.txt");
+    	  br_task = new BufferedReader(isr_task);
+    	  File f3 = new File("G:\\hotels\\beijing\\"+"preprocessed.txt");
           FileWriter writer = new FileWriter(f3);
           BufferedWriter output = new BufferedWriter(writer);
     	  while((str_task = br_task.readLine())!=null)
     	  {
-          System.out.print(str_task);
+         // System.out.print(str_task);
           str_task=sp.remove(str_task);
           str_task=spe.remove(str_task);
-          System.out.println(str_task);
+          str_task=stemmer.stemString(str_task);
+          str_task=corrector.correctString(str_task);
+          //System.out.println(str_task);
           output.write(str_task+"\n");
     	  }
-    	  System.out.print(spe.remove("a hello you are mine! of% about  at  are ( murugan )kannan."));
+    	  //System.out.print(corrector.correctString("i actively participated in the music clubs it was a gr8 night."));
           output.close();
       }
       catch (FileNotFoundException e) 
@@ -59,7 +63,7 @@ public class preprocess {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        System.out.println(sp.remove("a hello you are mine of about  at  are  murugan kannan"));
+        //System.out.println(sp.remove("a hi my name is slim  shady"));
 
 	}
 
