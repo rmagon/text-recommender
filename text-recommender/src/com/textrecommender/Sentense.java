@@ -32,6 +32,10 @@ public Sentense(String  content)
 }
 
 
+/*
+ * This function will put the sentences in the file fp
+ * to an AbstractList<slist> als which is passed to it
+ */
 public AbstractList  separatesentense(AbstractList als)
 {  
     int fs1=0,fs2=0;    	  

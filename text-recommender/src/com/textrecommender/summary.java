@@ -151,7 +151,9 @@ public void removestopwords() {
     		        
  }
 
-
+/*
+ * Uses the Sentense class's separatesentense function
+ */
 public void separatesentense(File fp)
  {	
 	Sentense sc=new Sentense(fp);
@@ -165,8 +167,6 @@ public void separatesentense(File fp)
 	   outdoc.setText( outdoc.getText() + "\n " + (i+1) +":  " + sl.getrawsentense());
 	}		
  }
-
-
 
 public double difpos(String str1,String str2)
 {     
@@ -220,7 +220,9 @@ private void setwight(Object tok)
      wl.weight(wg);         	      
 }
 
-
+/*
+ * 
+ */
 public void Uniquewords()
  {     	        
    for(int i=0;i<als.size(); i++) 
