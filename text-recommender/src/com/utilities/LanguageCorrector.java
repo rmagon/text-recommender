@@ -21,7 +21,7 @@ public class LanguageCorrector {
 			dictionary = new HashMap<String, String>();
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File("G://hotels//dictionary.txt"));
+				scanner = new Scanner(new File("G://sourcefiles//dictionary.txt"));
 			} catch (FileNotFoundException e) {
 				System.out
 						.println("WARNING - DID NOT FIND FILE DICTIONARY.TXT");

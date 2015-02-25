@@ -11,7 +11,7 @@ public class Special {
 		int cnt = 0, sz = 0;
 		char bt[] = null;
 		try {
-			File fp = new File("G:\\hotels\\" + "specials.txt");
+			File fp = new File("G:\\sourcefiles\\" + "specials.txt");
 			FileReader fis = new FileReader(fp);
 			sz = (int) fp.length();
 			bt = new char[sz];

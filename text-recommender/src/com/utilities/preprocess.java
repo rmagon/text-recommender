@@ -19,11 +19,19 @@ import java.util.StringTokenizer;
  */
 public class preprocess {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public  void listFilesForFolder(final File folder) {
+	    for (final File fileEntry : folder.listFiles()) {
+	        if (fileEntry.isDirectory()) {
+	            listFilesForFolder(fileEntry);
+	        } else {
+	        	doPreprocess(fileEntry.getAbsolutePath());
+	            
+	        }
+	    }
+	}
+	
+	public void doPreprocess(String fileName)
+	{
 		Stopword sp=new Stopword();
 	    Special spe=new Special();
 	    Porter stemmer = new Porter();
@@ -35,11 +43,11 @@ public class preprocess {
         StringTokenizer st_task;
     
       try 
-      {
-    	  fis_task = new FileInputStream("G:\\hotels\\beijing\\china_beijing_aloft_beijing_haidian");
+      {   	
+    	  fis_task = new FileInputStream(fileName);
     	  isr_task = new InputStreamReader(fis_task) ;
     	  br_task = new BufferedReader(isr_task);
-    	  File f3 = new File("G:\\hotels\\beijing\\"+"preprocessed.txt");
+    	  File f3 = new File(fileName+"_preprocessed.txt");
           FileWriter writer = new FileWriter(f3);
           BufferedWriter output = new BufferedWriter(writer);
     	  while((str_task = br_task.readLine())!=null)
@@ -64,6 +72,17 @@ public class preprocess {
 				e.printStackTrace();
 			}
         //System.out.println(sp.remove("a hi my name is slim  shady"));
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		preprocess p = new preprocess();
+		final File folder = new File("G:\\hotels");
+		p.listFilesForFolder(folder);
+		
 
 	}
 
