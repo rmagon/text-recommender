@@ -11,7 +11,7 @@ public class Stopword
         int cnt=0,sz=0;
         char bt[]=null;
        try {
-         File fp=new File("C:\\Workspace\\text-recommender\\src\\com\\textrecommender\\"+"stopwords.txt");	
+         File fp=new File("G:\\hotels\\stopwords.txt");	
          FileReader fis=new FileReader(fp);
          sz=(int)fp.length();
          bt=new  char [sz];
@@ -78,10 +78,10 @@ public void display ()
     
       try 
       {
-    	  fis_task = new FileInputStream("C:\\Users\\Jemin-PC\\Desktop\\Hotel Car Dataset\\hotels\\beijing\\china_beijing_aloft_beijing_haidian");
+    	  fis_task = new FileInputStream("G:\\hotels\\beijing\\china_beijing_aloft_beijing_haidian");
     	  isr_task = new InputStreamReader(fis_task) ;
     	  br_task = new BufferedReader(isr_task)      ;
-    	  File f3 = new File("C:\\Users\\Jemin-PC\\Desktop\\Hotel Car Dataset\\hotels\\beijing\\"+"preprocessed.txt");
+    	  File f3 = new File("G:\\hotels\\beijing\\"+"preprocessed.txt");
           FileWriter writer = new FileWriter(f3);
           BufferedWriter output = new BufferedWriter(writer);
     	  while((str_task = br_task.readLine())!=null)
