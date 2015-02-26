@@ -20,18 +20,18 @@ public class SimilarityMatrix {
 	private ArrayList<Sentence> arrSen;
 	
 	//this is the Bag-Of-Words for the whole document
-	private TreeMap<String, Integer> dictionary;
+	private ArrayList<String> dictionary;
 	
 	//number of Sentences
 	private Integer noOfSen;
 	
 	//A two dimensional similarity matrix indexed by arrSen Sentences
-	private Double similarity[][];
+	private double similarity[][];
 	
 	public SimilarityMatrix()
 	{
 		arrSen = new ArrayList<Sentence>();
-		dictionary = new TreeMap<String, Integer>();
+		dictionary = new ArrayList<String>();
 	}
 	
 	/*
@@ -63,9 +63,20 @@ public class SimilarityMatrix {
 	 */
 	public void initSimilarity() {
 		noOfSen = arrSen.size();
-		similarity = new Double[noOfSen][noOfSen];
+		similarity = new double[noOfSen][noOfSen];
 	}
 	
+	public void printSimilarity()
+	{
+		for(int i=0;i<noOfSen;i++)
+		{
+			for(int j=0;j<noOfSen;j++)
+			{
+				System.out.print(String.format( "%.2f", similarity[i][j] )  + " ");
+			}
+			System.out.println();
+		}
+	}
 	public ArrayList<Sentence> getArrSen() {
 		return arrSen;
 	}
@@ -74,27 +85,19 @@ public class SimilarityMatrix {
 		this.arrSen = arrSen;
 	}
 
-	public TreeMap<String, Integer> getDictionary() {
+	public ArrayList<String> getDictionary() {
 		return dictionary;
 	}
 
-	public void setDictionary(TreeMap<String, Integer> dictionary) {
+	public void setDictionary(ArrayList<String> dictionary) {
 		this.dictionary = dictionary;
 	}
 
-	public Integer getNoOfSen() {
-		return noOfSen;
-	}
-
-	public void setNoOfSen(Integer noOfSen) {
-		this.noOfSen = noOfSen;
-	}
-
-	public Double[][] getSimilarity() {
+	public double[][] getSimilarity() {
 		return similarity;
 	}
 	
-	public void setSimilarity(Double[][] similarity) {
+	public void setSimilarity(double[][] similarity) {
 		this.similarity = similarity;
 	}
 
@@ -112,14 +115,10 @@ public class SimilarityMatrix {
 	
 	public void printDictionary()
 	{
-		Set<String> keys = dictionary.keySet();
-	
-		   for (Iterator<String> i = keys.iterator(); i.hasNext();) 
-		   {
-		       String key = (String) i.next();
-		       Integer value = (Integer) dictionary.get(key);
-		       System.out.println(key + " = " + value);
+		   for(int i=0;i<dictionary.size();i++){
+			   System.out.print(dictionary.get(i) + "\t");
 		   }
+		   System.out.println();
 	}
 	
 }

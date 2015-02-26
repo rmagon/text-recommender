@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.AbstractList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 import com.textrecommender.slist;
@@ -11,11 +12,11 @@ import com.textrecommender.slist;
 /**
  * @author Rachit
  * Process Flow
- * 1. main() calls inputData() - Will input the data from two files
- * 2. inputData() will call fillSentences(string,string)
+ * 1. main() calls calculateSummary() - Will input the data from two files
+ * 2. calculateSummary() will call fillSentences(string,string)
  * 3. fillSentences() will fill SimilarityMatrix for Raw/Proc sentences 
  * 4. fillSentences() also fills the HashMap for the document through addToDictionary()
- * 5. inputData() calls createSentenceVectors()
+ * 5. calculateSummary() calls createSentenceVectors()
  */
 public class SummaryInput {
 
@@ -23,16 +24,22 @@ public class SummaryInput {
 
 	/*
 	 * Will create vectors for all Sentences according to the HashMap
-	 * CAUTION: the HashMap document.dictionary should be built before calling this function
+	 * CAUTION: document.dictionary should be built before calling this function
+	 * DOUBLE CAUTION: do not change document.dictionary after calling this function
 	 */
 	private void createSentenceVectors()
 	{
-		int noOfSen = document.getArrSen().size();
-		for(int i=0;i<noOfSen;i++)
+		//document.printDictionary();
+		int noOfUniqueWords = document.getDictionary().size();
+		int noOfSentences = document.getArrSen().size();
+		for(int i=0;i<noOfSentences;i++)
 		{
-			document.getArrSen().get(i).initVector(noOfSen);
-			String sen = document.getArrSen().get(i).getProSen();
+			Sentence sentObj = document.getArrSen().get(i);
+			sentObj.initVector(noOfUniqueWords);
+			
+			String sen = sentObj.getProSen();
 			StringTokenizer stk = new StringTokenizer(sen, " ");
+			
 			while (stk.hasMoreElements()) {
 				String tok = (String) stk.nextElement();
 				if(tok.endsWith("."))
@@ -40,11 +47,15 @@ public class SummaryInput {
 					tok = tok.substring(0, tok.length()-1);
 				}
 				tok = tok.trim();
-				if (document.getDictionary().containsKey(tok))
+				if (document.getDictionary().contains(tok))
 				{
-					
+					int indexOfToken = document.getDictionary().indexOf(tok);
+					int presentValue = sentObj.getVector().get(indexOfToken);
+					sentObj.getVector().set(indexOfToken, presentValue+1);
 				}
 			}
+			//sentObj.printVector();
+			
 		}
 	}
 	
@@ -61,12 +72,9 @@ public class SummaryInput {
 			}
 			tok = tok.trim();
 			
-			if (!document.getDictionary().containsKey(tok) && tok.length() >= 3) {
-				document.getDictionary().put(tok, 1);
-			} else if (document.getDictionary().containsKey(tok)) {
-				Integer wc = document.getDictionary().get(tok);
-				document.getDictionary().put(tok, wc+1);
-			}
+			if (!document.getDictionary().contains(tok) && tok.length() >= 3) {
+				document.getDictionary().add(tok);
+			} 
 		}
 	}
 
@@ -94,7 +102,8 @@ public class SummaryInput {
 				break;
 			} else if (input1.charAt(nx + 1) == ' '
 					|| input1.charAt(nx + 1) == '\r'
-					|| input1.charAt(nx + 1) == '\n') {
+					|| input1.charAt(nx + 1) == '\n'
+					|| input1.charAt(nx + 1) == '\t') {
 				String str = (input1.substring(fs1, nx + 1).toLowerCase())
 						.trim();
 				// System.out.println("RAW NEW SENTENCE ENLSEIF: " + str);
@@ -127,7 +136,8 @@ public class SummaryInput {
 				break;
 			} else if (input2.charAt(nx + 1) == ' '
 					|| input2.charAt(nx + 1) == '\r'
-					|| input2.charAt(nx + 1) == '\n') { // I don't understand
+					|| input2.charAt(nx + 1) == '\n'
+					|| input1.charAt(nx + 1) == '\t') { // I don't understand
 														// this but it is
 														// working
 				String str = (input2.substring(fs1, nx + 1).toLowerCase())
@@ -141,15 +151,16 @@ public class SummaryInput {
 				// nothing interesting found move forward
 				fs2 = nx + 1;
 		}
-		//document.printBothSentences();
-		document.printDictionary();
+		
+		
+		
 	}
 
 	/*
 	 * Basically the most important function which will do all the work The main
 	 * function will call this function with two file names
 	 */
-	private void inputData(String rawFileName, String preProcessedFileName) {
+	private void calculateSummary(String rawFileName, String preProcessedFileName) {
 		int sz;
 		byte bt[];
 		String rawContent = "", procContent = "";
@@ -180,12 +191,28 @@ public class SummaryInput {
 
 		this.fillSentences(rawContent, procContent);
 		
+		document.printBothSentences();
+		Collections.sort(document.getDictionary()); //Sort the Bag of Words
+		//document.printDictionary();
+		
+		this.createSentenceVectors(); //create vectors for every sentence
+		
+		document.initSimilarity(); //initialize the similarity matrix to all 0s
+		CosineSimilarity.findCosineSimilairty(document);  //fidn the similarity matrix
+		//document.printSimilarity();
+		
+		int noOfSentencesNeeded = 4;
+		int aa[][] = CosineSimilarity.getTopSentences(noOfSentencesNeeded, document);
+		for(int i=0;i<noOfSentencesNeeded;i++)
+		{
+			System.out.println(aa[i][0] + ": "+ document.getArrSen().get(aa[i][0]).getRawSen());
+		}
 	}
 
 	public static void main(String[] args) {
 		SummaryInput sum = new SummaryInput();
-		sum.inputData("G://sourcefiles//1.txt",
-				"G://sourcefiles//1_preprocessed.txt");
+		sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
+				"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt");
 
 	}
 

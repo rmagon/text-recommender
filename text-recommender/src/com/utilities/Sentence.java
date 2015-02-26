@@ -17,7 +17,33 @@ public class Sentence {
 	public Sentence(String rawSen2) {
 		rawSen = rawSen2;
 	}
-
+	
+	/*
+	 * Helper Function to Calculate Vector Sum
+	 */
+	public int vectorSum()
+	{
+		int sum =0;
+		for(int i=0;i<vector.size();i++)
+		{
+			sum += vector.get(i);
+		}
+		return sum;
+	}
+	
+	/*
+	 * Helper Function to calculate square sum root
+	 */
+	public double vectorSquareSumRoot()
+	{
+		double sum =0;
+		for(int i=0;i<vector.size();i++)
+		{
+			sum += (vector.get(i)*vector.get(i));
+		}
+		return Math.sqrt(sum);
+	}
+	
 	/*
 	 * Only return the vector if it is not null
 	 * To use the vector first call initVector and initialize it
@@ -32,13 +58,25 @@ public class Sentence {
 			return null;
 		}
 	}
-
+	
+	public void printVector()
+	{
+		for(int i=0;i<vector.size();i++){
+			System.out.print(vector.get(i) + "\t");
+		}
+		System.out.println();
+	}
 	public void setVector(ArrayList<Integer> vector) {
 		this.vector = vector;
 	}
 
+	/*
+	 * Initialize the vector with 0s
+	 */
 	public void initVector(int n) {
 		vector = new ArrayList<Integer>(n);
+		for(int i=0;i<n;i++)
+		vector.add(0);
 	}
 
 	public String getRawSen() {
