@@ -160,7 +160,7 @@ public class SummaryInput {
 	 * Basically the most important function which will do all the work The main
 	 * function will call this function with two file names
 	 */
-	private void calculateSummary(String rawFileName, String preProcessedFileName) {
+	private void calculateSummary(String rawFileName, String preProcessedFileName,String file) {
 		int sz;
 		byte bt[];
 		String rawContent = "", procContent = "";
@@ -203,16 +203,24 @@ public class SummaryInput {
 		
 		int noOfSentencesNeeded = 4;
 		int aa[][] = CosineSimilarity.getTopSentences(noOfSentencesNeeded, document);
+		
+		String summaryRAW = "";
+		String summaryPROC = "";
 		for(int i=0;i<noOfSentencesNeeded;i++)
 		{
 			System.out.println(aa[i][0] + ": "+ document.getArrSen().get(aa[i][0]).getRawSen());
+			summaryRAW = summaryRAW + document.getArrSen().get(aa[i][0]).getRawSen();
+			summaryPROC = summaryPROC + document.getArrSen().get(aa[i][0]).getProSen();
 		}
+		
+		DatabaseHelper dbHelp = new DatabaseHelper();
+		dbHelp.insertHotelReview(file, summaryRAW, summaryPROC);
 	}
 
 	public static void main(String[] args) {
 		SummaryInput sum = new SummaryInput();
 		sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
-				"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt");
+				"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
 
 	}
 
