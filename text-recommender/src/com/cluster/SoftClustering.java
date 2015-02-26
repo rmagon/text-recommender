@@ -14,12 +14,13 @@ public class SoftClustering {
 		double value=0;
 		for(int i=0;i<clusters.size();i++)
 		{
+			Cluster c=clusters.get(i);
 			for(int j=0;j<clusters.get(i).getDocuments().size();j++)
 			{
-				//value = value + clusters.get(i)clusters
+				value = value + c.cosineSimilarity(j);
 			}
 		}
-		return 0;
+		return value;
 	}
 	
 	/**
