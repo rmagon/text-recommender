@@ -54,7 +54,7 @@ public class SummaryInput {
 					sentObj.getVector().set(indexOfToken, presentValue+1);
 				}
 			}
-			//sentObj.printVector();
+			sentObj.printVector();
 			
 		}
 	}
@@ -193,13 +193,13 @@ public class SummaryInput {
 		
 		document.printBothSentences();
 		Collections.sort(document.getDictionary()); //Sort the Bag of Words
-		//document.printDictionary();
+		document.printDictionary();
 		
 		this.createSentenceVectors(); //create vectors for every sentence
 		
 		document.initSimilarity(); //initialize the similarity matrix to all 0s
 		CosineSimilarity.findCosineSimilairty(document);  //fidn the similarity matrix
-		//document.printSimilarity();
+		document.printSimilarity();
 		
 		int noOfSentencesNeeded = 4;
 		int aa[][] = CosineSimilarity.getTopSentences(noOfSentencesNeeded, document);

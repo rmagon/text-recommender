@@ -3,6 +3,7 @@ package com.utilities;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -77,7 +78,36 @@ public class DatabaseHelper {
 		}
 		insert(city, hotel, rawSumm, proSumm);
 	}
-
+	
+	public ArrayList<Hotel> getHotelByCity(String[] city)
+	{
+		ArrayList<Hotel> hotels = new ArrayList<Hotel>(50);
+		createStatement();
+		String query = "select * from `textreco`.`hotel` where city ='" + city[0] +"' ";
+		for(int i=1;i<city.length;i++)
+		{
+			query += ("or city='" + city[i] +"' ");
+		}
+		try {
+			ResultSet rs = this.statement.executeQuery(query);
+			 while (rs.next()) {
+				 Hotel h = new Hotel();
+				 h.setCity(rs.getString(2));
+				 h.setName(rs.getString(3));
+				
+				 h.setRawSummary(rs.getString(4));
+				 h.setProSummary(rs.getString(5));
+				 hotels.add(h);
+			 }
+			 
+		} catch (SQLException e) {
+			System.out.println("Error in getHotelByCity() SQLException\n");
+			e.printStackTrace();
+		}
+		
+		return hotels;
+		
+	}
 	private void initHashMap() {
 		textCity = new HashMap<String, String>();
 		textCity.put("china_beijing", "Beijing");
