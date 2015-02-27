@@ -199,6 +199,11 @@ public class SummaryInput {
 		
 		document.initSimilarity(); //initialize the similarity matrix to all 0s
 		CosineSimilarity.findCosineSimilairty(document);  //fidn the similarity matrix
+		System.out.println("Similarity Matrix after Cosine:");
+		document.printSimilarity();
+		
+		SemanticSimilarity.addSemanticSimilarity(document);
+		System.out.println("Similarity Matrix After Adding Semantic:");
 		document.printSimilarity();
 		
 		int noOfSentencesNeeded = 4;
@@ -219,8 +224,10 @@ public class SummaryInput {
 
 	public static void main(String[] args) {
 		SummaryInput sum = new SummaryInput();
-		sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
-				"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
+		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
+		//		"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
+		sum.calculateSummary("G://sourcefiles//1.txt",
+				"G://sourcefiles//1_preprocessed.txt","china_beijing_hello_test_rachit");
 
 	}
 

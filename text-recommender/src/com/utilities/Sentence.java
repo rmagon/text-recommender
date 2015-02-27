@@ -11,6 +11,10 @@ public class Sentence {
 	private String rawSen = "", proSen = "";
 	private ArrayList<Integer> vector;
 
+	public String[] getArrayRawSen()
+	{
+		return rawSen.split("[[ ]*|[,]*|[\\.]*|[:]*|[/]*|[!]*|[?]*|[+]*]+");
+	}
 	/*
 	 * Set both the sentences at the time of object creation
 	 */

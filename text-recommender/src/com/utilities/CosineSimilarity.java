@@ -9,6 +9,7 @@ public class CosineSimilarity {
 	public static void findCosineSimilairty(SimilarityMatrix document)
 	{
 		int noOfSentences = document.getArrSen().size();
+		double max=0,min=Double.MAX_VALUE;
 		for(int i=0;i<noOfSentences;i++)
 		{
 			for(int j=i;j<noOfSentences;j++)
@@ -22,12 +23,34 @@ public class CosineSimilarity {
 					double den1 = sen1.vectorSquareSumRoot();
 					double den2 = sen2.vectorSquareSumRoot();
 					document.getSimilarity()[i][j] = (num1*num2)/(den1*den2);
-					document.getSimilarity()[j][i] = (num1*num2)/(den1*den2);
+					document.getSimilarity()[j][i] = document.getSimilarity()[i][j];
+					if(document.getSimilarity()[i][j]>max)
+					{
+						max = document.getSimilarity()[i][j];
+					}
+					//if(document.getSimilarity()[i][j]<min)
+					//{
+					//	min = document.getSimilarity()[i][j];
+					//}
 				}
 			}
 		}
+		//document.printSimilarity();
+		normalizeMatrix(document.getSimilarity(),max,0);
+		
 	}
 	
+	public static void normalizeMatrix(double[][] toNormalize,double max,double min)
+	{
+		
+		for(int i=0;i<toNormalize.length;i++)
+		{
+			for(int j=0;j<toNormalize.length;j++)
+			{
+				toNormalize[i][j] = (toNormalize[i][j] - min)/(max - min);
+			}
+		}
+	}
 	public static int getIndexOfMaxRow(SimilarityMatrix document)
 	{
 		int index=-1;
@@ -105,5 +128,40 @@ public class CosineSimilarity {
 			//System.out.println(sumOfSimilarity[i][0] + " " + sumOfSimilarity[i][1]);
 		}
 		return result;
+	}
+	
+	
+	public static void addMatrixToSimilarityAndNormalize(double[][] Similarity,double[][] matToAdd,int len)
+	{
+		double max=0,min=Double.MAX_VALUE;
+		for(int i=0;i<len;i++)
+		{
+			for(int j=0;j<len;j++)
+			{
+				Similarity[i][j] += matToAdd[i][j];
+				if(Similarity[i][j]>max)
+				{
+					max = Similarity[i][j];
+				}
+				if(Similarity[i][j]<min)
+				{
+					min = Similarity[i][j];
+				}
+			}
+		}
+		normalizeMatrix(Similarity,max,min);
+	}
+	
+	public static void printMatrix(double[][] mat, int len)
+	{
+		for(int i=0;i<len;i++)
+		{
+			for(int j=0;j<len;j++)
+			{
+				System.out.print(String.format( "%.2f", mat[i][j] )  + " ");
+			}
+			System.out.println();
+		}
+		
 	}
 }
