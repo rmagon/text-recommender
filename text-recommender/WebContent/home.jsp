@@ -4,9 +4,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Select Cities</title>
 </head>
 <body>
-HIIIIIII
+<form action="summary">
+<input type="checkbox" name="vehicle" value="Beijing">Beijing<br>
+<input type="checkbox" name="vehicle" value="Chicago">Chicago<br>
+<input type="checkbox" name="vehicle" value="Dubai">Dubai<br>
+<input type="checkbox" name="vehicle" value="Las-vegas">Las-vegas<br>
+<input type="checkbox" name="vehicle" value="London">London<br>
+<input type="checkbox" name="vehicle" value="Montreal">Montreal<br>
+<input type="checkbox" name="vehicle" value="New-delhi">New-delhi<br>
+<input type="checkbox" name="vehicle" value="New-york-city">New-york-city<br>
+<input type="checkbox" name="vehicle" value="San-francisco">San-francisco<br>
+<input type="checkbox" name="vehicle" value="Shanghai">Shanghai
+</form>
+
 </body>
 </html>

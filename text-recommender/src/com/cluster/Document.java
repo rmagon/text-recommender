@@ -2,10 +2,11 @@ package com.cluster;
 
 public class Document {
 
-	double [] tfidf;
+	public double [] tfidf;
 	
 	public Document(double input[])
 	{
 		tfidf=input;
 	}
+
 }

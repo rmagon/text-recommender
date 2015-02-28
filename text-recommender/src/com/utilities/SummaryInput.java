@@ -216,11 +216,41 @@ public class SummaryInput {
 		DatabaseHelper dbHelp = new DatabaseHelper();
 		dbHelp.insertHotelReview(file, summaryRAW, summaryPROC);
 	}
-
+	public  void listFilesForFolder(final File folder) {
+	    for (final File fileEntry : folder.listFiles()) {
+	        if (fileEntry.isDirectory()) {
+	            listFilesForFolder(fileEntry);
+	        } else {
+	        	doSummarization(fileEntry.getAbsolutePath(),fileEntry.getName());
+	            
+	        }
+	    }
+	}
+	
+	public void doSummarization(String fileName,String name)
+	{
+		if(!name.contains("_preprocessed.txt"))
+		{
+			return;
+		}
+		else
+		{
+			String firstName = fileName.substring(0,fileName.indexOf("_preprocessed.txt"));
+			name=name.substring(0,name.indexOf("_preprocessed.txt"));
+		//	System.out.println(firstName);
+			//System.out.println(fileName);
+			//System.out.println(name);
+			SummaryInput sum = new SummaryInput();
+			sum.calculateSummary(firstName,fileName,name);
+		}
+		
+	}
 	public static void main(String[] args) {
 		SummaryInput sum = new SummaryInput();
-		sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
-				"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
+		final File folder = new File("G:\\hotels");
+		sum.listFilesForFolder(folder);
+		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
+				//"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
 
 	}
 
