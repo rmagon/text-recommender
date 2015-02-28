@@ -7,17 +7,18 @@
 <title>Select Cities</title>
 </head>
 <body>
-<form action="summary">
-<input type="checkbox" name="vehicle" value="Beijing">Beijing<br>
-<input type="checkbox" name="vehicle" value="Chicago">Chicago<br>
-<input type="checkbox" name="vehicle" value="Dubai">Dubai<br>
-<input type="checkbox" name="vehicle" value="Las-vegas">Las-vegas<br>
-<input type="checkbox" name="vehicle" value="London">London<br>
-<input type="checkbox" name="vehicle" value="Montreal">Montreal<br>
-<input type="checkbox" name="vehicle" value="New-delhi">New-delhi<br>
-<input type="checkbox" name="vehicle" value="New-york-city">New-york-city<br>
-<input type="checkbox" name="vehicle" value="San-francisco">San-francisco<br>
-<input type="checkbox" name="vehicle" value="Shanghai">Shanghai
+<form action="Summary" method="post">
+<input type="checkbox" name="hotel" value="Beijing">Beijing<br>
+<input type="checkbox" name="hotel" value="Chicago">Chicago<br>
+<input type="checkbox" name="hotel" value="Dubai">Dubai<br>
+<input type="checkbox" name="hotel" value="Las-vegas">Las-vegas<br>
+<input type="checkbox" name="hotel" value="London">London<br>
+<input type="checkbox" name="hotel" value="Montreal">Montreal<br>
+<input type="checkbox" name="hotel" value="New-delhi">New-delhi<br>
+<input type="checkbox" name="hotel" value="New-york-city">New-york-city<br>
+<input type="checkbox" name="hotel" value="San-francisco">San-francisco<br>
+<input type="checkbox" name="hotel" value="Shanghai">Shanghai<br>
+<input type="submit" value="Submit">
 </form>
 
 </body>

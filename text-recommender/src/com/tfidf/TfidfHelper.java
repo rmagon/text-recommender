@@ -17,8 +17,9 @@ public class TfidfHelper {
 
 	TreeMap<String, Integer> docTermsList = new TreeMap<String, Integer>();
 	TreeMap<String, Integer> docTermIndexes = new TreeMap<String, Integer>();
-
-	ArrayList<Hotel> hotelsArray;
+    int targetIndex;
+    String selectedHotel;
+	ArrayList<Hotel> hotelsArray,originalHotels;
 	ArrayList<double[]> tfidf = new ArrayList<double[]>();
 	static double soft[][];
 	
@@ -126,9 +127,28 @@ public class TfidfHelper {
 			// HotelUtility.printDictionary(hotelsArray.get(i));
 		}
 	}
-
+	
+public void replaceSynonyms()
+{
+	Synonyms syn = new Synonyms();
+	for(int i=0;i<this.hotelsArray.size();i++)
+	{
+		String summary = this.hotelsArray.get(i).getRawSummary();
+		String newSummary = "";
+		String word;
+		StringTokenizer st = new StringTokenizer(summary," .");  
+	     while (st.hasMoreTokens()) {  
+	    	 word = syn.getSynonyms(st.nextToken()); 
+	        newSummary = newSummary + word + " ";
+	     }  
+	     this.hotelsArray.get(i).setRawSummary(newSummary);
+	}
+}
 	public void calculatetfidf(String cities[]) {
 		this.hotelsArray = dbHelp.getHotelByCity(cities);
+		this.originalHotels = new ArrayList<Hotel>(); 
+		this.originalHotels = (ArrayList<Hotel>) this.hotelsArray;
+		this.replaceSynonyms();
 		this.fillDataStructures();
 		// HotelUtility.printHotelCityName(hArr);
 		// HotelUtility.printTreeMap(docTermsList, "Document Term List");
@@ -136,7 +156,61 @@ public class TfidfHelper {
 		this.createTFIDFArray();
 		this.printTFIDF();
 	}
-
+	public ArrayList<Hotel> run(String cities[],String selectedHotel)
+	{
+		this.selectedHotel = selectedHotel;
+		calculatetfidf(cities);
+		ArrayList<Document> all = new ArrayList<Document>();
+		for(double ifidf[]:this.tfidf)
+		{	
+			all.add(new Document(ifidf));
+		}
+		int index=0,in=0;
+		for(Hotel h:hotelsArray)
+		{
+			if(h.getName().equals(this.selectedHotel))
+		    {
+				index = in;
+				break;
+		    }
+			in++;
+		}
+		SoftClustering scluster = new SoftClustering();
+		scluster.run(all);
+		soft = new double[all.size()][scluster.getClusters().size()];
+		for(int i=0;i<all.size();i++)
+		{
+			int j=0;
+			for(Cluster c:scluster.getClusters())
+			{
+				System.out.println(c.getCentroid().tfidf[0]);
+				soft[i][j++] = c.calWeight_doc(scluster.getClusters(), 3,all.get(i));
+				System.out.println("D:"+i+" W:"+soft[i][j-1]);
+			}
+		}
+		
+		double hw=0;
+		int clusterIndex=0;
+		for(int i=0;i<scluster.getClusters().size();i++)
+		{
+			System.out.println("I:"+i+"SIZE OF CLUS:"+scluster.getClusters().get(i).getDocuments().size());
+			if(soft[index][i]>hw)
+			{
+				hw=soft[index][i];
+				clusterIndex=i;
+			}
+		}
+		System.out.println("SELECTED DOC:"+index);
+		System.out.println("CLUSTER INDEX:"+clusterIndex);
+		ArrayList<Hotel> recoSummary = new ArrayList<Hotel>();
+		for(Document d:scluster.getClusters().get(clusterIndex).getDocuments())
+		{
+			int index_reco = all.indexOf(d);
+			recoSummary.add(originalHotels.get(index_reco));
+			//System.out.println(hotelsArray.get(index).getRawSummary());
+		}
+		return recoSummary;
+	}
 	public static void main(String[] args)
 	{
 		TfidfHelper tfidf = new TfidfHelper();
@@ -206,7 +280,6 @@ public class TfidfHelper {
 		for(Document d:scluster.getClusters().get(clusterIndex).getDocuments())
 		{
 			int index = all.indexOf(d);
-			
 			System.out.println(tfidf.hotelsArray.get(index).getRawSummary());
 		}
 	}
