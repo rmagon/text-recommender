@@ -36,7 +36,7 @@ public class StopwordRemove
 
 
 
-    private static String RESULT_FNAME = "C:\\Workspace\\text-recommender\\src\\com\\textrecommender\\"+"result.txt";
+    private static String RESULT_FNAME = "C:\\Workspace\\text-Recommender\\src\\com\\textrecommender\\"+"result.txt";
 
 
 
@@ -61,7 +61,7 @@ public class StopwordRemove
 
 	try
 	    {
-		Scanner stopWordsFile = new Scanner(new File("C:\\Workspace\\text-recommender\\src\\com\\textrecommender\\stopwords.txt"));
+		Scanner stopWordsFile = new Scanner(new File("C:\\Workspace\\text-Recommender\\src\\com\\textrecommender\\stopwords.txt"));
 		int numStopWords = stopWordsFile.nextInt();
 		stopWords = new String[numStopWords];
 		for (int i = 0; i < numStopWords; i++)
@@ -85,7 +85,7 @@ public class StopwordRemove
 	String word;
 	try
 	    {
-		Scanner textFile = new Scanner(new File("C:\\Workspace\\text-recommender\\src\\com\\textrecommender\\"+textFilename));
+		Scanner textFile = new Scanner(new File("C:\\Workspace\\text-Recommender\\src\\com\\textrecommender\\"+textFilename));
 		textFile.useDelimiter(Pattern.compile("[ \n\r\t,.;:?!'\"]+"));
 
 		PrintWriter outFile = new PrintWriter(new File(RESULT_FNAME));

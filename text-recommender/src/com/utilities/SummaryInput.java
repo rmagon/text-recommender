@@ -246,9 +246,11 @@ public class SummaryInput {
 		
 	}
 	public static void main(String[] args) {
+		System.out.println("call");
 		SummaryInput sum = new SummaryInput();
 		final File folder = new File("G:\\hotels");
 		sum.listFilesForFolder(folder);
+		System.out.println("call");
 		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
 				//"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
 

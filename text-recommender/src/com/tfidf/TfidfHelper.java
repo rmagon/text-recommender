@@ -13,6 +13,7 @@ import com.utilities.*;
 
 public class TfidfHelper {
 
+	
 	DatabaseHelper dbHelp = new DatabaseHelper();
 
 	TreeMap<String, Integer> docTermsList = new TreeMap<String, Integer>();
@@ -156,6 +157,7 @@ public void replaceSynonyms()
 		this.createTFIDFArray();
 		this.printTFIDF();
 	}
+	
 	public ArrayList<Hotel> run(String cities[],String selectedHotel)
 	{
 		this.selectedHotel = selectedHotel;
@@ -183,8 +185,8 @@ public void replaceSynonyms()
 			int j=0;
 			for(Cluster c:scluster.getClusters())
 			{
-				System.out.println(c.getCentroid().tfidf[0]);
-				soft[i][j++] = c.calWeight_doc(scluster.getClusters(), 3,all.get(i));
+				//System.out.println(c.getCentroid().tfidf[0]);
+				soft[i][j++] = c.calWeight_doc(scluster.getClusters(),3,all.get(i));
 				System.out.println("D:"+i+" W:"+soft[i][j-1]);
 			}
 		}
@@ -237,7 +239,7 @@ public void replaceSynonyms()
 			for(Cluster c:scluster.getClusters())
 			{
 				System.out.println(c.getCentroid().tfidf[0]);
-				soft[i][j++] = c.calWeight_doc(scluster.getClusters(), 3,all.get(i));
+				soft[i][j++] = c.calWeight_doc(scluster.getClusters(), 1,all.get(i));
 				System.out.println("D:"+i+" W:"+soft[i][j-1]);
 			}
 		}

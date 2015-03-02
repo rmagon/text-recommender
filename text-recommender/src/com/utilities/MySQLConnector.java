@@ -28,7 +28,7 @@ public class MySQLConnector {
 				Class.forName("com.mysql.jdbc.Driver");
 				singleConnection = (Connection) java.sql.DriverManager
 						.getConnection("jdbc:mysql://localhost:3306/textreco",
-								"root", "");
+								"root", "jemin");
 			} catch (SQLException se) {
 				se.printStackTrace();
 			} catch (Exception e) {

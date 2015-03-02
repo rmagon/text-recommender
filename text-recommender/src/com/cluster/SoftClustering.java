@@ -45,7 +45,7 @@ public class SoftClustering {
 				clusters.add(temp);
 				break;
 			}
-			else if(c[0].getDocuments().size()<.2*input.size())
+			else if(c[1].getDocuments().size()<.2*input.size())
 			{
 				clusters.add(temp);
 				break;
