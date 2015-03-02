@@ -199,6 +199,11 @@ public class SummaryInput {
 		
 		document.initSimilarity(); //initialize the similarity matrix to all 0s
 		CosineSimilarity.findCosineSimilairty(document);  //fidn the similarity matrix
+		System.out.println("Similarity Matrix after Cosine:");
+		document.printSimilarity();
+		
+		SemanticSimilarity.addSemanticSimilarity(document);
+		System.out.println("Similarity Matrix After Adding Semantic:");
 		document.printSimilarity();
 		
 		int noOfSentencesNeeded = 4;
@@ -248,11 +253,18 @@ public class SummaryInput {
 	public static void main(String[] args) {
 		System.out.println("call");
 		SummaryInput sum = new SummaryInput();
+<<<<<<< HEAD
 		final File folder = new File("G:\\hotels");
 		sum.listFilesForFolder(folder);
 		System.out.println("call");
 		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
 				//"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
+=======
+		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
+		//		"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
+		sum.calculateSummary("G://sourcefiles//1.txt",
+				"G://sourcefiles//1_preprocessed.txt","china_beijing_hello_test_rachit");
+>>>>>>> origin/master
 
 	}
 
