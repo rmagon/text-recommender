@@ -389,7 +389,7 @@ public class Porter {
 	private String[] getTokens(String sen) {
 		int sz = 0, cnt = 0;
 		String words[] = null;
-		StringTokenizer stk = new StringTokenizer(sen);
+		StringTokenizer stk = new StringTokenizer(sen," ");
 		sz = stk.countTokens();
 		words = new String[sz];
 		while (stk.hasMoreTokens()) {
@@ -399,16 +399,52 @@ public class Porter {
 		return words;
 	}
 
+	private String getTokensDot(String sen) {
+		int sz = 0, cnt = 0;
+		String words[] = null;
+		String word = "";
+		StringTokenizer stk = new StringTokenizer(sen,".");
+		sz = stk.countTokens();
+		words = new String[sz];
+		while (stk.hasMoreTokens()) {
+			words[cnt] = new String(stk.nextToken());
+			if(cnt<sz-1)
+			{
+				if((cnt<sz-2)&&(Character.isLetter(words[cnt+1].charAt(0))))
+				{
+					words[cnt] = words[cnt]+". ";
+				}
+				else
+				{
+					words[cnt] = words[cnt]+".";
+				}
+			}
+			else
+			{
+				word = word + words[cnt];
+			}
+			cnt++;
+			
+		}
+		return word;
+	}
+	
 	public String stemString(String sen) {
 		String words[] = getTokens(sen);
 		String stemmedSen = "";
 		for (int j = 0; j < words.length; j++) {
-			if (words[j].endsWith(".")) // preserve end of sentence
+			/*if (words[j].endsWith(".")) // preserve end of sentence
 			{
 				stemmedSen = stemmedSen + stripAffixes(words[j]) + ". ";
-			} else {
+			} */
+			if (words[j].contains("."))
+			{
+				stemmedSen = stemmedSen + words[j] + " ";
+			}
+			else {
 				stemmedSen = stemmedSen + stripAffixes(words[j]) + " ";
 			}
+			
 		}
 
 		return stemmedSen;

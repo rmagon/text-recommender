@@ -53,10 +53,10 @@ public class preprocess {
     	  while((str_task = br_task.readLine())!=null)
     	  {
          // System.out.print(str_task);
-          str_task=sp.remove(str_task);
-          str_task=spe.remove(str_task);
-          str_task=stemmer.stemString(str_task);
-          str_task=corrector.correctString(str_task);
+           str_task = sp.remove(str_task);
+        //  str_task=spe.remove(str_task);
+          str_task = stemmer.stemString(str_task);
+           str_task = corrector.correctString(str_task);
           //System.out.println(str_task);
           output.write(str_task+"\n");
     	  }

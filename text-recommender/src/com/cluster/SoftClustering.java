@@ -20,6 +20,7 @@ public class SoftClustering {
 	}
 	public void run(ArrayList<Document> input)
 	{
+		 long t0 = System.currentTimeMillis();
 		ArrayList<Document> localInput=input;//intially all are input.
 		weight = new ArrayList<ArrayList<Integer>>();
 		
@@ -40,12 +41,12 @@ public class SoftClustering {
 			    System.out.print(randomNum);
 			    c[randomNum].setDocument(d);
 			}
-			if(c[0].getDocuments().size()<.2*input.size())
+			if(c[0].getDocuments().size()<.1*input.size())
 			{
 				clusters.add(temp);
 				break;
 			}
-			else if(c[1].getDocuments().size()<.2*input.size())
+			else if(c[1].getDocuments().size()<.1*input.size())
 			{
 				clusters.add(temp);
 				break;
@@ -93,6 +94,9 @@ public class SoftClustering {
 			}
 			
 		}
+		 long t1 = System.currentTimeMillis();
+         System.out.println( "Done in "+(t1-t0)+" msec." );
+         
 	}
 	
 	

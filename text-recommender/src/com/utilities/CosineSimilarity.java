@@ -22,8 +22,21 @@ public class CosineSimilarity {
 					double num2 = sen2.vectorSum();
 					double den1 = sen1.vectorSquareSumRoot();
 					double den2 = sen2.vectorSquareSumRoot();
-					document.getSimilarity()[i][j] = (num1*num2)/(den1*den2);
+					double multi = 0;
+					for(int k=0;k<sen1.getVector().size();k++)
+					{
+						multi = multi + sen1.getVector().get(k)*sen2.getVector().get(k);
+					}
+					if((den1==0)||(den2==0))
+					{
+						document.getSimilarity()[i][j] = 0;
+						document.getSimilarity()[j][i] = 0;
+					}
+					else
+					{
+					document.getSimilarity()[i][j] = multi/(den1*den2);
 					document.getSimilarity()[j][i] = document.getSimilarity()[i][j];
+					}
 					if(document.getSimilarity()[i][j]>max)
 					{
 						max = document.getSimilarity()[i][j];
@@ -33,10 +46,15 @@ public class CosineSimilarity {
 					//	min = document.getSimilarity()[i][j];
 					//}
 				}
+				else
+				{
+					document.getSimilarity()[i][j] = 0;
+					document.getSimilarity()[j][i] = 0;
+				}
 			}
 		}
 		//document.printSimilarity();
-		normalizeMatrix(document.getSimilarity(),max,0);
+		//normalizeMatrix(document.getSimilarity(),max,0);
 		
 	}
 	

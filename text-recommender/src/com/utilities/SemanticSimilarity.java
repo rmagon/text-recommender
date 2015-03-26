@@ -116,7 +116,8 @@ public class SemanticSimilarity {
 			{
 				if(i!=j)
 				{
-					tempMat[i][j] = runSingle(document.getArrSen().get(i).getArrayRawSen(),document.getArrSen().get(j).getArrayRawSen());
+					tempMat[i][j] = runSingle(document.getArrSen().get(i).getArrayProSen(),document.getArrSen().get(j).getArrayProSen());
+					System.out.println("for" + i + " " + j);
 					tempMat[j][i] = tempMat[i][j];
 				}
 				if(tempMat[j][i]>max)

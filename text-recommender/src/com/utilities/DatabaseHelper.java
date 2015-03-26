@@ -94,7 +94,6 @@ public class DatabaseHelper {
 				 Hotel h = new Hotel();
 				 h.setCity(rs.getString(2));
 				 h.setName(rs.getString(3));
-				
 				 h.setRawSummary(rs.getString(4));
 				 h.setProSummary(rs.getString(5));
 				 hotels.add(h);

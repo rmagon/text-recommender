@@ -148,7 +148,16 @@ public void replaceSynonyms()
 	public void calculatetfidf(String cities[]) {
 		this.hotelsArray = dbHelp.getHotelByCity(cities);
 		this.originalHotels = new ArrayList<Hotel>(); 
-		this.originalHotels = (ArrayList<Hotel>) this.hotelsArray;
+		for(Hotel h:this.hotelsArray)
+		{
+			 Hotel H = new Hotel();
+			 H.setCity(h.getCity());
+			 H.setName(h.getName());
+			 H.setRawSummary(h.getRawSummary());
+			 H.setProSummary(h.getProSummary());
+			this.originalHotels.add(H);
+		}
+		
 		this.replaceSynonyms();
 		this.fillDataStructures();
 		// HotelUtility.printHotelCityName(hArr);
@@ -187,7 +196,7 @@ public void replaceSynonyms()
 			{
 				//System.out.println(c.getCentroid().tfidf[0]);
 				soft[i][j++] = c.calWeight_doc(scluster.getClusters(),3,all.get(i));
-				System.out.println("D:"+i+" W:"+soft[i][j-1]);
+				//System.out.println("D:"+i+" W:"+soft[i][j-1]);
 			}
 		}
 		
@@ -195,15 +204,15 @@ public void replaceSynonyms()
 		int clusterIndex=0;
 		for(int i=0;i<scluster.getClusters().size();i++)
 		{
-			System.out.println("I:"+i+"SIZE OF CLUS:"+scluster.getClusters().get(i).getDocuments().size());
+			//System.out.println("I:"+i+"SIZE OF CLUS:"+scluster.getClusters().get(i).getDocuments().size());
 			if(soft[index][i]>hw)
 			{
 				hw=soft[index][i];
 				clusterIndex=i;
 			}
 		}
-		System.out.println("SELECTED DOC:"+index);
-		System.out.println("CLUSTER INDEX:"+clusterIndex);
+	//	System.out.println("SELECTED DOC:"+index);
+	//	System.out.println("CLUSTER INDEX:"+clusterIndex);
 		ArrayList<Hotel> recoSummary = new ArrayList<Hotel>();
 		for(Document d:scluster.getClusters().get(clusterIndex).getDocuments())
 		{

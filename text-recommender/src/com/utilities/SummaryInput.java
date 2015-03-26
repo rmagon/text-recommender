@@ -54,7 +54,7 @@ public class SummaryInput {
 					sentObj.getVector().set(indexOfToken, presentValue+1);
 				}
 			}
-			sentObj.printVector();
+			//sentObj.printVector();
 			
 		}
 	}
@@ -85,7 +85,7 @@ public class SummaryInput {
 	private void fillSentences(String input1, String input2) {
 		int fs1 = 0, fs2 = 0; // fs2 is the fseek counter
 		int nx = 0; // gets the index of full stop '.'
-
+		int count=0;
 		// while index of '.' is less than the length of the string
 		while (nx < (input1.length() - 1)) {
 			nx = input1.indexOf(".", fs2); // find the new index
@@ -97,25 +97,29 @@ public class SummaryInput {
 				String str = (input1.substring(fs1, nx + 1)).toLowerCase();
 				// System.out.println("RAW NEW SENTENCE LASTINDEX: " + str);
 				document.addRawSentence(str);
+				count++;
 				fs2 = nx + 1;
 				fs1 = fs2;
 				break;
 			} else if (input1.charAt(nx + 1) == ' '
 					|| input1.charAt(nx + 1) == '\r'
 					|| input1.charAt(nx + 1) == '\n'
-					|| input1.charAt(nx + 1) == '\t') {
+					|| input1.charAt(nx + 1) == '\t'
+					|| (input1.charAt(nx + 1) >= 'a'&&input1.charAt(nx + 1) <='z')
+					||(input1.charAt(nx + 1) >= 'A' && input1.charAt(nx + 1) <= 'Z')) {
 				String str = (input1.substring(fs1, nx + 1).toLowerCase())
 						.trim();
-				// System.out.println("RAW NEW SENTENCE ENLSEIF: " + str);
+				//System.out.println("RAW NEW SENTENCE ENLSEIF: " + str);
 				document.addRawSentence(str);
-				
+				count++;
 				fs2 = nx + 1;
 				fs1 = fs2;
 			} else
 				// nothing interesting found move forward
 				fs2 = nx + 1;
 		}
-
+		System.out.println("COUNT OF RAW:" + count);
+		count = 0;
 		fs1 = 0;
 		fs2 = 0;
 		nx = 0;
@@ -128,8 +132,9 @@ public class SummaryInput {
 														// then all the rest is
 														// a sentence
 				String str = (input2.substring(fs1, nx + 1)).toLowerCase();
-				// System.out.println("PRO NEW SENTENCE LASTINDEX: " + str);
+				//System.out.println("PRO NEW SENTENCE LASTINDEX: " + str);
 				document.addProcSentence(index++, str);
+				count++;
 				this.addToDictionary(str);
 				fs2 = nx + 1;
 				fs1 = fs2;
@@ -137,13 +142,16 @@ public class SummaryInput {
 			} else if (input2.charAt(nx + 1) == ' '
 					|| input2.charAt(nx + 1) == '\r'
 					|| input2.charAt(nx + 1) == '\n'
-					|| input1.charAt(nx + 1) == '\t') { // I don't understand
+					|| input2.charAt(nx + 1) == '\t'
+					|| (input2.charAt(nx + 1) >= 'a'&&input2.charAt(nx + 1) <='z')
+					||(input2.charAt(nx + 1) >= 'A' && input2.charAt(nx + 1) <= 'Z')) { // I don't understand
 														// this but it is
 														// working
 				String str = (input2.substring(fs1, nx + 1).toLowerCase())
 						.trim();
 				// System.out.println("PRO NEW SENTENCE ELSEIF: " + str);
 				document.addProcSentence(index++, str);
+				count++;
 				this.addToDictionary(str);
 				fs2 = nx + 1;
 				fs1 = fs2;
@@ -151,7 +159,7 @@ public class SummaryInput {
 				// nothing interesting found move forward
 				fs2 = nx + 1;
 		}
-		
+		System.out.println("COUNT OF PRO:" + count);
 		
 		
 	}
@@ -191,20 +199,20 @@ public class SummaryInput {
 
 		this.fillSentences(rawContent, procContent);
 		
-		document.printBothSentences();
+		//document.printBothSentences();
 		Collections.sort(document.getDictionary()); //Sort the Bag of Words
-		document.printDictionary();
+		//document.printDictionary();
 		
 		this.createSentenceVectors(); //create vectors for every sentence
 		
 		document.initSimilarity(); //initialize the similarity matrix to all 0s
 		CosineSimilarity.findCosineSimilairty(document);  //fidn the similarity matrix
-		System.out.println("Similarity Matrix after Cosine:");
-		document.printSimilarity();
-		
-		SemanticSimilarity.addSemanticSimilarity(document);
-		System.out.println("Similarity Matrix After Adding Semantic:");
-		document.printSimilarity();
+		//System.out.println("Similarity Matrix after Cosine:");
+		//document.printSimilarity();
+		//System.out.println("Going to add Semantic Similarity:");
+		//SemanticSimilarity.addSemanticSimilarity(document);
+		//System.out.println("Similarity Matrix After Adding Semantic:");
+		//document.printSimilarity();
 		
 		int noOfSentencesNeeded = 4;
 		int aa[][] = CosineSimilarity.getTopSentences(noOfSentencesNeeded, document);
@@ -213,7 +221,7 @@ public class SummaryInput {
 		String summaryPROC = "";
 		for(int i=0;i<noOfSentencesNeeded;i++)
 		{
-			System.out.println(aa[i][0] + ": "+ document.getArrSen().get(aa[i][0]).getRawSen());
+			//System.out.println(aa[i][0] + ": "+ document.getArrSen().get(aa[i][0]).getRawSen());
 			summaryRAW = summaryRAW + document.getArrSen().get(aa[i][0]).getRawSen();
 			summaryPROC = summaryPROC + document.getArrSen().get(aa[i][0]).getProSen();
 		}
@@ -253,18 +261,18 @@ public class SummaryInput {
 	public static void main(String[] args) {
 		System.out.println("call");
 		SummaryInput sum = new SummaryInput();
-<<<<<<< HEAD
-		final File folder = new File("G:\\hotels");
+
+		final File folder = new File("G:\\beijing");
 		sum.listFilesForFolder(folder);
 		System.out.println("call");
 		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
 				//"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
-=======
+
 		//sum.calculateSummary("G://hotels//beijing//china_beijing_ascott_beijing",
 		//		"G://hotels//beijing//china_beijing_ascott_beijing_preprocessed.txt","china_beijing_ascott_beijing");
-		sum.calculateSummary("G://sourcefiles//1.txt",
-				"G://sourcefiles//1_preprocessed.txt","china_beijing_hello_test_rachit");
->>>>>>> origin/master
+	//	sum.calculateSummary("G://sourcefiles//1.txt",
+				//"G://sourcefiles//1_preprocessed.txt","china_beijing_hello_test_rachit");
+
 
 	}
 
